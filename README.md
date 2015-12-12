@@ -16,6 +16,7 @@ Core
 - SSL
 - Stream
 - URI
+- Base64
 
 ## Installation
 
