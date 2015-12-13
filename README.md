@@ -10,6 +10,7 @@ Core
 
 ## Types
 
+- Data
 - JSON
 - MediaType
 - POSIXRegex

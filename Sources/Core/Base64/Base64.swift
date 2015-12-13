@@ -169,50 +169,16 @@ private class Base64Decoder {
 
 }
 
-internal class Base64 {
+public final class Base64 {
 
-	// MARK: - Encode
-
-	internal static func encodeBytes(bytes bytes: [UInt8], charsPerLine: Int? = nil, specialChars: String? = nil) -> [UInt8] {
-		let encoder = Base64Encoder(bytes: bytes, charsPerLine: charsPerLine)
-		return encoder.output
+	public static func encode(data: Data, charsPerLine: Int? = nil, specialChars: String? = nil) -> Data {
+		let encoder = Base64Encoder(bytes: data.uBytes, charsPerLine: charsPerLine)
+		return Data(uBytes: encoder.output)
 	}
 
-	internal static func encodeBytes(string string: String, charsPerLine: Int? = nil, specialChars: String? = nil) -> [UInt8] {
-		let encoder = Base64Encoder(bytes: Array(string.utf8), charsPerLine: charsPerLine)
-		return encoder.output
-	}
-
-	internal static func encodeString(bytes bytes: [UInt8], charsPerLine: Int? = nil, specialChars: String? = nil) -> String {
-		let encoder = Base64Encoder(bytes: bytes, charsPerLine: charsPerLine)
-		return String.fromBytes(encoder.output)
-	}
-
-	internal static func encodeString(string string: String, charsPerLine: Int? = nil, specialChars: String? = nil) -> String {
-		let encoder = Base64Encoder(bytes: Array(string.utf8), charsPerLine: charsPerLine)
-		return String.fromBytes(encoder.output)
-	}
-
-	// MARK: - Decode
-
-	internal static func decodeBytes(bytes bytes: [UInt8]) -> [UInt8] {
-		let encoder = Base64Decoder(bytes: bytes)
-		return encoder.output
-	}
-
-	internal static func decodeBytes(string string: String) -> [UInt8] {
-		let encoder = Base64Decoder(bytes: Array(string.utf8))
-		return encoder.output
-	}
-
-	internal static func decodeString(bytes bytes: [UInt8]) -> String {
-		let encoder = Base64Decoder(bytes: bytes)
-		return String.fromBytes(encoder.output)
-	}
-
-	internal static func decodeString(string string: String) -> String {
-		let encoder = Base64Decoder(bytes: Array(string.utf8))
-		return String.fromBytes(encoder.output)
+	public static func decode(data: Data) -> Data {
+		let decoder = Base64Decoder(bytes: data.uBytes)
+		return Data(uBytes: decoder.output)
 	}
 
 }
