@@ -24,24 +24,25 @@
 
 public struct Data: ArrayLiteralConvertible, StringLiteralConvertible {
 
-	private let _bytes: [Int8]?
-	private let _string: String?
+	private enum Storage {
+		case Bytes([Int8])
+		case Text(String)
+	}
+
+	private var raw: Storage
 
 	// MARK: - Initializers
 
 	public init(bytes: [Int8]) {
-		self._bytes = bytes
-		self._string = nil
+		self.raw = .Bytes(bytes)
 	}
 
 	public init(uBytes: [UInt8]) {
-		self._bytes = unsafeBitCast(uBytes, [Int8].self)
-		self._string = nil
+		self.raw = .Bytes(unsafeBitCast(uBytes, [Int8].self))
 	}
 
 	public init(string: String) {
-		self._bytes = nil
-		self._string = string
+		self.raw = .Text(string)
 	}
 
 	// MARK: - ArrayLiteralConvertible
@@ -67,26 +68,29 @@ public struct Data: ArrayLiteralConvertible, StringLiteralConvertible {
 	// MARK: - Getters
 
 	public var bytes: [Int8] {
-		if let bytes = _bytes {
+		switch raw {
+		case .Bytes(let bytes):
 			return bytes
-		} else if let string = _string {
+		case .Text(let string):
 			return unsafeBitCast(Array(string.nulTerminatedUTF8), [Int8].self)
-		} else {
-			return []
 		}
 	}
 
 	public var uBytes: [UInt8] {
-		return unsafeBitCast(self.bytes, [UInt8].self)
+		switch raw {
+		case .Bytes(let bytes):
+			return unsafeBitCast(bytes, [UInt8].self)
+		case .Text(let string):
+			return Array(string.nulTerminatedUTF8)
+		}
 	}
 
 	public var string: String? {
-		if let string = _string {
-			return string
-		} else if let bytes = _bytes {
+		switch raw {
+		case .Bytes(let bytes):
 			return String.fromCString(bytes)
-		} else {
-			return nil
+		case .Text(let string):
+			return string
 		}
 	}
 
