@@ -172,7 +172,7 @@ private class Base64Decoder {
 public final class Base64 {
 
 	public static func encode(data: Data, charsPerLine: Int? = nil, specialChars: String? = nil) -> Data {
-		let encoder = Base64Encoder(bytes: data.uBytes, charsPerLine: charsPerLine)
+		let encoder = Base64Encoder(bytes: data.uBytes, charsPerLine: charsPerLine, specialChars: specialChars)
 		return Data(uBytes: encoder.output)
 	}
 
