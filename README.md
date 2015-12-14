@@ -1,10 +1,10 @@
 Core
 ====
 
-[![Swift 2.2](https://img.shields.io/badge/Swift-2.2-orange.svg?style=flat)](https://developer.apple.com/swift/)
-[![Platforms Linux | OSX](https://img.shields.io/badge/Platforms-Linux%20%7C%20OS%20X-lightgray.svg?style=flat)](https://developer.apple.com/swift/)
+[![Swift 2.2](https://img.shields.io/badge/Swift-2.2-orange.svg?style=flat)](https://swift.org)
+[![Platforms Linux](https://img.shields.io/badge/Platforms-Linux-lightgray.svg?style=flat)](https://swift.org)
 [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](https://tldrlegal.com/license/mit-license)
-[![Slack Status](https://zewo-slackin.herokuapp.com/badge.svg)](http://slack.zewo.io)
+[![Slack Status](http://slack.zewo.io/badge.svg)](http://slack.zewo.io)
 
 **Core** provides the base for Zewo frameworks.
 
@@ -53,9 +53,9 @@ let package = Package(
 
 ## Community
 
-[![Slack](http://s13.postimg.org/ybwy92ktf/Slack.png)](https://zewo-slackin.herokuapp.com)
+[![Slack](http://s13.postimg.org/ybwy92ktf/Slack.png)](http://slack.zewo.io)
 
-Join us on [Slack](https://zewo-slackin.herokuapp.com).
+Join us on [Slack](http://slack.zewo.io).
 
 License
 -------
