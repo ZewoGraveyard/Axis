@@ -88,7 +88,7 @@ extension String {
     }
 
     public var data: [Int8] {
-        return self.utf8.map { Int8($0) }
+        return self.utf8.map { Int8(bitPattern: $0) }
     }
 
     public func splitBy(separator: Character, allowEmptySlices: Bool = false) -> [String] {
