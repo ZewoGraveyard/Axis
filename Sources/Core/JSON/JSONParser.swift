@@ -40,7 +40,7 @@ public struct JSONParser {
     }
 
     public static func parse(source: [Int8]) throws -> JSON {
-        return try parse(source.map({UInt8($0)}))
+        return try parse(source.map({UInt8(bitPattern: $0)}))
     }
 }
 
