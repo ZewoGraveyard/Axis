@@ -22,17 +22,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#if os(Linux)
-    import Glibc
-#else
-    import Darwin.C
-#endif
+import Gamut
 
 struct RegexError : ErrorType {
     let description: String
 
-    static func errorFromResult(result: Int32, preg: regex_t) -> RegexError {
-        var preg = preg
+    static func errorFromResult(result: Int32, var preg: regex_t) -> RegexError {
         var buffer = [Int8](count: Int(BUFSIZ), repeatedValue: 0)
         regerror(result, &preg, &buffer, buffer.count)
         let description = String.fromCString(buffer)!
@@ -48,11 +43,11 @@ public final class Regex {
             self.rawValue = rawValue
         }
 
-        public static let Basic =            RegexOptions(rawValue: 0)
-        public static let Extended =         RegexOptions(rawValue: 1)
-        public static let CaseInsensitive =  RegexOptions(rawValue: 2)
-        public static let ResultOnly =       RegexOptions(rawValue: 8)
-        public static let NewLineSensitive = RegexOptions(rawValue: 4)
+        public static let Basic =            RegexOptions(rawValue: REG_BASIC)
+        public static let Extended =         RegexOptions(rawValue: REG_EXTENDED)
+        public static let CaseInsensitive =  RegexOptions(rawValue: REG_ICASE)
+        public static let ResultOnly =       RegexOptions(rawValue: REG_NOSUB)
+        public static let NewLineSensitive = RegexOptions(rawValue: REG_NEWLINE)
     }
 
     public struct MatchOptions: OptionSetType {
@@ -84,15 +79,14 @@ public final class Regex {
         var regexMatches = [regmatch_t](count: 1, repeatedValue: regmatch_t())
         let result = regexec(&preg, string, regexMatches.count, &regexMatches, options.rawValue)
 
-        if result == 1 {
+        if result == REG_NOMATCH {
             return false
         }
 
         return true
     }
 
-    public func groups(string: String, options: MatchOptions = []) -> [String] {
-        var string = string
+    public func groups(var string: String, options: MatchOptions = []) -> [String] {
         let maxMatches = 10
         var groups = [String]()
 
@@ -100,26 +94,30 @@ public final class Regex {
             var regexMatches = [regmatch_t](count: maxMatches, repeatedValue: regmatch_t())
             let result = regexec(&preg, string, regexMatches.count, &regexMatches, options.rawValue)
 
-            if result == 1 {
+            if result == REG_NOMATCH {
                 break
             }
 
             for var j = 1; regexMatches[j].rm_so != -1; j++ {
                 let start = Int(regexMatches[j].rm_so)
                 let end = Int(regexMatches[j].rm_eo)
-                let match = string[string.startIndex.advancedBy(start) ..<  string.startIndex.advancedBy(end)]
-                groups.append(match)
+                if let match = String(string.utf8[string.utf8.startIndex.advancedBy(start) ..< string.utf8.startIndex.advancedBy(end)]) {
+                    groups.append(match)
+                }
             }
 
             let offset = Int(regexMatches[0].rm_eo)
-            string = string[string.startIndex.advancedBy(offset) ..< string.endIndex]
+            if let offsetString = String(string.utf8[string.utf8.startIndex.advancedBy(offset) ..< string.utf8.endIndex]) {
+                string = offsetString
+            } else {
+                break
+            }
         }
 
         return groups
     }
 
-    public func replace(string: String, withTemplate template: String, options: MatchOptions = []) -> String {
-        var string = string
+    public func replace(var string: String, withTemplate template: String, options: MatchOptions = []) -> String {
         let maxMatches = 10
         var totalReplacedString: String = ""
 
@@ -127,25 +125,50 @@ public final class Regex {
             var regexMatches = [regmatch_t](count: maxMatches, repeatedValue: regmatch_t())
             let result = regexec(&preg, string, regexMatches.count, &regexMatches, options.rawValue)
 
-            if result == 1 {
+            if result == REG_NOMATCH {
                 break
             }
 
             let start = Int(regexMatches[0].rm_so)
             let end = Int(regexMatches[0].rm_eo)
 
-            var replacedString = string
-            replacedString.replaceRange(string.startIndex.advancedBy(start) ..<  string.startIndex.advancedBy(end), with: template)
+            var replacedStringArray = Array<UInt8>(string.utf8)
+            let templateArray = Array<UInt8>(template.utf8)
+            replacedStringArray.replaceRange(start ..<  end, with: templateArray)
+
+            guard var replacedString = String(data: replacedStringArray) else {
+                break
+            }
 
             let templateDelta = template.utf8.count - (end - start)
-            let templateDeltaIndex = replacedString.startIndex.advancedBy(Int(end + templateDelta))
+            let templateDeltaIndex = replacedString.utf8.startIndex.advancedBy(Int(end + templateDelta))
 
-            replacedString = replacedString[replacedString.startIndex ..< templateDeltaIndex]
+            replacedString = String(replacedString.utf8[replacedString.utf8.startIndex ..< templateDeltaIndex])
 
             totalReplacedString += replacedString
-            string = string[string.startIndex.advancedBy(end) ..< string.endIndex]
+            string = String(string.utf8[string.utf8.startIndex.advancedBy(end) ..< string.utf8.endIndex])
         }
         
         return totalReplacedString + string
+    }
+}
+
+extension String {
+    public init?(data: [UInt8]) {
+        var string = ""
+        var decoder = UTF8()
+        var generator = data.generate()
+        var finished = false
+
+        while !finished {
+            let decodingResult = decoder.decode(&generator)
+            switch decodingResult {
+            case .Result(let char): string.append(char)
+            case .EmptyInput: finished = true
+            case .Error: return nil
+            }
+        }
+
+        self.init(string)
     }
 }
