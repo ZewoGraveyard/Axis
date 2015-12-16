@@ -57,18 +57,7 @@ public struct URI {
         self.host = host
         self.port = port
         self.path = path
-
-        var parsedQuery: [String: String] = [:]
-
-        for (key, value) in query {
-            if let
-                parsedKey = String(URLEncodedString: key),
-                parsedValue = String(URLEncodedString: value) {
-                    parsedQuery[parsedKey] = parsedValue
-            }
-        }
-
-        self.query = parsedQuery
+        self.query = query
         self.fragment = fragment
     }
 }
@@ -78,13 +67,15 @@ extension URI {
         let u = parse_uri(string)
 
         if u.field_set & 1 != 0 {
-            scheme = URI.getSubstring(string, start: u.scheme_start, end: u.scheme_end)
+            let string = URI.getSubstring(string, start: u.scheme_start, end: u.scheme_end)
+            scheme = String(URLEncodedString: string)
         } else {
             scheme = nil
         }
 
         if u.field_set & 2 != 0 {
-            host = URI.getSubstring(string, start: u.host_start, end: u.host_end)
+            let string = URI.getSubstring(string, start: u.host_start, end: u.host_end)
+            host = String(URLEncodedString: string)
         } else {
             host = nil
         }
@@ -96,7 +87,9 @@ extension URI {
         }
 
         if u.field_set & 8 != 0 {
-            path = URI.getSubstring(string, start: u.path_start, end: u.path_end)
+            let string = URI.getSubstring(string, start: u.path_start, end: u.path_end)
+            print(string)
+            path = String(URLEncodedString: string)
         } else {
             path = nil
         }
@@ -109,7 +102,8 @@ extension URI {
         }
 
         if u.field_set & 32 != 0 {
-            fragment = URI.getSubstring(string, start: u.fragment_start, end: u.fragment_end)
+            let string = URI.getSubstring(string, start: u.fragment_start, end: u.fragment_end)
+            fragment = String(URLEncodedString: string)
         } else {
             fragment = nil
         }
@@ -127,22 +121,36 @@ extension URI {
     }
 
     @inline(__always) private static func parseUserInfoString(userInfoString: String) -> URI.UserInfo? {
-        let userInfoElements = userInfoString.characters.split{$0 == ":"}.map(String.init)
-        return URI.UserInfo(
-            username: userInfoElements[0],
-            password: userInfoElements[1]
-        )
+        let userInfoElements = userInfoString.splitBy(":")
+        if userInfoElements.count == 2 {
+            if let
+                username = String(URLEncodedString: userInfoElements[0]),
+                password = String(URLEncodedString: userInfoElements[1]) {
+                    return URI.UserInfo(
+                        username: username,
+                        password: password
+                    )
+            }
+        }
+
+        return nil
     }
 
     @inline(__always) private static func parseQueryString(queryString: String) -> [String: String] {
         var query: [String: String] = [:]
-        let queryTuples = queryString.characters.split{$0 == "&"}.map(String.init)
+        let queryTuples = queryString.splitBy("&")
         for tuple in queryTuples {
-            let queryElements = tuple.characters.split{$0 == "="}.map(String.init)
+            let queryElements = tuple.splitBy("=")
             if queryElements.count == 1 {
-                query[queryElements[0]] = ""
+                if let name = String(URLEncodedString: queryElements[0]) {
+                    query[name] = ""
+                }
             } else if queryElements.count == 2 {
-                query[queryElements[0]] = queryElements[1]
+                if let
+                    name = String(URLEncodedString: queryElements[0]),
+                    value = String(URLEncodedString: queryElements[1]) {
+                        query[name] = value
+                }
             }
         }
         return query
