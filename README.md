@@ -11,6 +11,7 @@ Core
 ## Types
 
 - Data
+- File
 - JSON
 - MediaType
 - POSIXRegex
