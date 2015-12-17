@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public class EventListener<T> {
+public final class EventListener<T> {
 	public typealias Listener = T -> ()
 	
 	private let listener: Listener

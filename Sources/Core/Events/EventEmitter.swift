@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public class EventEmitter<T> {
+public final class EventEmitter<T> {
 	private var listeners: [EventListener<T>] = []
 	
 	public func listen(times times: Int = -1, listener: EventListener<T>.Listener) -> EventListener<T> {
