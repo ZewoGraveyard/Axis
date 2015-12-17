@@ -19,7 +19,7 @@ Core
 - Stream
 - URI
 - Base64
-- Events
+- EventEmitter
 
 ## Installation
 
