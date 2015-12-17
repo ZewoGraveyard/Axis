@@ -65,6 +65,17 @@ public struct Data: ArrayLiteralConvertible, StringLiteralConvertible {
 		self.init(string: value)
 	}
 
+	// MARK: - Length
+
+	public var length: Int {
+		switch raw {
+		case .Bytes(let bytes):
+			return bytes.count
+		case .Text(let string):
+			return string.nulTerminatedUTF8.count
+		}
+	}
+
 	// MARK: - Getters
 
 	public var bytes: [Int8] {
