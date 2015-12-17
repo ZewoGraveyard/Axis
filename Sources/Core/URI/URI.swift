@@ -88,7 +88,6 @@ extension URI {
 
         if u.field_set & 8 != 0 {
             let string = URI.getSubstring(string, start: u.path_start, end: u.path_end)
-            print(string)
             path = String(URLEncodedString: string)
         } else {
             path = nil
