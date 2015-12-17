@@ -99,7 +99,7 @@ public struct Data: ArrayLiteralConvertible, StringLiteralConvertible {
 	public var string: String? {
 		switch raw {
 		case .Bytes(let bytes):
-			return String.fromCString(bytes)
+			return String(data: unsafeBitCast(bytes, [UInt8].self))
 		case .Text(let string):
 			return string
 		}
