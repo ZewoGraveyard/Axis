@@ -104,12 +104,14 @@ public final class Regex {
                 break
             }
 
-            for var j = 1; regexMatches[j].rm_so != -1; j++ {
+            var j = 1
+
+            while regexMatches[j].rm_so != -1 {
                 let start = Int(regexMatches[j].rm_so)
                 let end = Int(regexMatches[j].rm_eo)
-                if let match = String(string.utf8[string.utf8.startIndex.advancedBy(start) ..< string.utf8.startIndex.advancedBy(end)]) {
-                    groups.append(match)
-                }
+                let match = string[string.startIndex.advancedBy(start) ..<  string.startIndex.advancedBy(end)]
+                groups.append(match)
+                j += 1
             }
 
             let offset = Int(regexMatches[0].rm_eo)

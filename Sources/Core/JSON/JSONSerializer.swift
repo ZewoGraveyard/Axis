@@ -53,7 +53,7 @@ public class DefaultJSONSerializer: JSONSerializer {
     func serializeArray(a: [JSON]) -> String {
         var s = "["
 
-        for var i = 0; i < a.count; i++ {
+        for i in 0 ..< a.count {
             s += a[i].serialize(self)
 
             if i != (a.count - 1) {
@@ -86,7 +86,7 @@ public final class PrettyJSONSerializer: DefaultJSONSerializer {
         var s = "["
         indentLevel++
 
-        for var i = 0; i < a.count; i++ {
+        for i in 0 ..< a.count {
             s += "\n"
             s += indent()
             s += a[i].serialize(self)
@@ -125,7 +125,7 @@ public final class PrettyJSONSerializer: DefaultJSONSerializer {
     func indent() -> String {
         var s = ""
 
-        for var i = 0; i < indentLevel; i++ {
+        for _ in 0 ..< indentLevel {
             s += "    "
         }
 

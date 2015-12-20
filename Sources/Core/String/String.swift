@@ -30,8 +30,9 @@ extension String {
 
         var encodedData: [UInt8] = [] + URLEncodedString.utf8
         var decodedData: [UInt8] = []
+        var i = 0
 
-        for var i = 0; i < encodedData.count; {
+        while i < encodedData.count {
             let currentCharacter = encodedData[i]
 
             switch currentCharacter {
