@@ -77,7 +77,9 @@ public class File {
 	}
 	
 	public func close() {
-		fclose(fp)
+		if fp != nil {
+			fclose(fp)
+		}
 	}
 	
 }
