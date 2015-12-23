@@ -36,7 +36,7 @@ $ sudo apt-get install uri-parser
 
 ```bash
 $ brew tap zewo/tap
-$ brew udpate
+$ brew update
 $ brew install uri_parser
 ```
 
