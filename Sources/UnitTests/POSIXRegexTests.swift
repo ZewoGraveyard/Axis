@@ -23,9 +23,22 @@
 // SOFTWARE.
 
 import XCTest
-import POSIXRegex
+import Core
 
 class POSIXRegexTests: XCTestCase {
+    var allTests: [(String, Void -> Void)] {
+        return [
+            ("testInvalidRegex", testInvalidRegex),
+            ("testMatches", testMatches),
+            ("testNotMatches", testNotMatches),
+            ("testGroup", testGroup),
+            ("testGroups", testGroups),
+            ("testNoGroups", testNoGroups),
+            ("testReplace", testReplace),
+            ("testNoReplace", testNoReplace)
+        ]
+    }
+
     func testInvalidRegex() {
         var called = false
         do {

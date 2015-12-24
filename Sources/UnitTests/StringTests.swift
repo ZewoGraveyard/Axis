@@ -1,4 +1,4 @@
-// JSONTests.swift
+// StringTets.swift
 //
 // The MIT License (MIT)
 //
@@ -23,35 +23,17 @@
 // SOFTWARE.
 
 import XCTest
-import JSON
+import Core
 
-class JSONTests: XCTestCase {
-    func testExample() {
-        let parsedJson = try! JSONParser.parse("{\"foo\":\"bar\"}")
-        print(parsedJson.debugDescription)
-
-        let json: JSON = [
-            "null": nil,
-            "string": "Foo Bar",
-            "boolean": true,
-            "array": [
-                "1",
-                2,
-                nil,
-                true,
-                ["1", 2, nil, false],
-                ["a": "b"]
-            ],
-            "object": [
-                "a": "1",
-                "b": 2,
-                "c": nil,
-                "d": false,
-                "e": ["1", 2, nil, false],
-                "f": ["a": "b"]
-            ],
-            "number": 1969
+class StringTests: XCTestCase {
+    var allTests: [(String, Void -> Void)] {
+        return [
+            ("testTrim", testTrim)
         ]
-        print(json.debugDescription)
+    }
+
+    func testTrim() {
+        let trimmed = "  trimmed  ".trim()
+        XCTAssert(trimmed == "trimmed")
     }
 }

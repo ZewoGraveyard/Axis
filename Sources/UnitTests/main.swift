@@ -1,4 +1,4 @@
-// URITests.swift
+// main.swift
 //
 // The MIT License (MIT)
 //
@@ -23,22 +23,11 @@
 // SOFTWARE.
 
 import XCTest
-import URI
+import Glibc
 
-class URITests: XCTestCase {
-    func test() {
-        let uri = URI(string: "abc://username:password@example.com:123/path/data?key=value#fragid1")
-        XCTAssert(uri.scheme == "abc")
-        XCTAssert(uri.userInfo?.username == "username")
-        XCTAssert(uri.userInfo?.password == "password")
-        XCTAssert(uri.host == "example.com")
-        XCTAssert(uri.port == 123)
-        XCTAssert(uri.path == "/path/data")
-        XCTAssert(uri.query["key"] == "value")
-        XCTAssert(uri.fragment == "fragid1")
-
-        let uri2 = URI(path: "/api/v1/tasks", query: ["done": "true"])
-        XCTAssert(uri2.path == "/api/v1/tasks")
-        XCTAssert(uri2.query["done"] == "true")
-    }
-}
+XCTMain([
+    StringTests(),
+    JSONTests(),
+    POSIXRegexTests(),
+    URITests()
+])
