@@ -27,7 +27,7 @@ public final class EventListener<T> {
 	
 	private let listener: Listener
 	private var calls: Int
-	private var active = true
+    var active = true
 	
 	internal init(calls: Int, listener: Listener) {
 		self.calls = calls

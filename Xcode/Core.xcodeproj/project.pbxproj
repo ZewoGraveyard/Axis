@@ -25,6 +25,8 @@
 		B0C08E781C2C3A410088B16D /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C08E621C2C3A410088B16D /* String.swift */; };
 		B0C08E791C2C3A410088B16D /* URI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C08E641C2C3A410088B16D /* URI.swift */; };
 		B0C08E801C2C3B180088B16D /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C08E7F1C2C3B180088B16D /* StringTests.swift */; };
+		B0C08E841C2C3C150088B16D /* EventEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C08E821C2C3C150088B16D /* EventEmitter.swift */; };
+		B0C08E851C2C3C150088B16D /* EventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C08E831C2C3C150088B16D /* EventListener.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		B0C08E621C2C3A410088B16D /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		B0C08E641C2C3A410088B16D /* URI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URI.swift; sourceTree = "<group>"; };
 		B0C08E7F1C2C3B180088B16D /* StringTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
+		B0C08E821C2C3C150088B16D /* EventEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEmitter.swift; sourceTree = "<group>"; };
+		B0C08E831C2C3C150088B16D /* EventListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListener.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,7 @@
 		B0C08E481C2C3A410088B16D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				B0C08E811C2C3C150088B16D /* Events */,
 				B0C08E4A1C2C3A410088B16D /* Base64 */,
 				B0C08E4C1C2C3A410088B16D /* CollectionType */,
 				B0C08E4E1C2C3A410088B16D /* Data */,
@@ -248,6 +253,16 @@
 			path = Core/URI;
 			sourceTree = "<group>";
 		};
+		B0C08E811C2C3C150088B16D /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				B0C08E821C2C3C150088B16D /* EventEmitter.swift */,
+				B0C08E831C2C3C150088B16D /* EventListener.swift */,
+			);
+			name = Events;
+			path = Core/Events;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -361,10 +376,12 @@
 				B0C08E731C2C3A410088B16D /* JSONSerializer.swift in Sources */,
 				B0C08E6E1C2C3A410088B16D /* File.swift in Sources */,
 				B0C08E781C2C3A410088B16D /* String.swift in Sources */,
+				B0C08E851C2C3C150088B16D /* EventListener.swift in Sources */,
 				B0C08E791C2C3A410088B16D /* URI.swift in Sources */,
 				B0C08E721C2C3A410088B16D /* JSONParser.swift in Sources */,
 				B0C08E6F1C2C3A410088B16D /* Int.swift in Sources */,
 				B0C08E761C2C3A410088B16D /* SSL.swift in Sources */,
+				B0C08E841C2C3C150088B16D /* EventEmitter.swift in Sources */,
 				B0C08E711C2C3A410088B16D /* JSONParseError.swift in Sources */,
 				B0C08E701C2C3A410088B16D /* JSON.swift in Sources */,
 				B0C08E771C2C3A410088B16D /* Stream.swift in Sources */,
