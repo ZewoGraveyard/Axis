@@ -1,22 +1,9 @@
 import PackageDescription
 
-#if os(OSX)
-    let package = Package(
-        name: "Core",
+let package = Package(
+    name: "Core",
         dependencies: [
-            .Package(url: "https://github.com/Zewo/CURIParser.git", majorVersion: 0, minor: 1)
-        ],
-        exclude: ["Sources/UnitTests"]
-    )
-#else
-    let package = Package(
-        name: "Core",
-        dependencies: [
-            .Package(url: "https://github.com/Zewo/CURIParser.git", majorVersion: 0, minor: 1)
-        ],
-        targets: [
-            Target(name: "UnitTests", dependencies: [.Target(name: "Core")]),
-            Target(name: "Core")
-        ]
-    )
-#endif
+        .Package(url: "https://github.com/Zewo/POSIX.git", majorVersion: 0, minor: 13),
+        .Package(url: "https://github.com/Zewo/Reflection.git", majorVersion: 0, minor: 13),
+    ]
+)
